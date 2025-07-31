@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Task Stopwatch with Day Tracking",
+  "version": "2.0",
+  "description": "A task-based stopwatch extension with day-wise time tracking and manual date selection",
+  "author": "Sree Ram M S",
+  "homepage_url": "",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Task Stopwatch"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
+

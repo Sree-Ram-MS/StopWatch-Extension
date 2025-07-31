@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 350px;
+      padding: 15px;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      max-height: 800px;
+      overflow-y: unset;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 10px 0;
+    }
+    
+    .date-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .date-selector label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .date-selector input {
+      flex: 1;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+    
+    .date-nav-btn {
+      min-width: 32px;
+      height: 32px;
+      padding: 4px 8px;
+      font-size: 16px;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .date-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-1px);
+    }
+    
+    .date-nav-btn:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.4);
+    }
+    
+    .task-creator {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .task-creator input {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+    
+    .task-creator input::placeholder {
+      color: #666;
+    }
+    
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary {
+      background: #4CAF50;
+    }
+    
+    .btn-primary:hover {
+      background: #45a049;
+    }
+    
+    .btn-warning {
+      background: #ff9800;
+    }
+    
+    .btn-warning:hover {
+      background: #e68900;
+    }
+    
+    .btn-danger {
+      background: #f44336;
+    }
+    
+    .btn-danger:hover {
+      background: #da190b;
+    }
+    
+    .btn-success {
+      background: #2196F3;
+    }
+    
+    .btn-success:hover {
+      background: #1976D2;
+    }
+    
+    .btn-small {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    
+    .tasks-section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+    
+    .tasks-header {
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 600;
+      font-size: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .tasks-list {
+      max-height: 800px;
+      overflow-y: unset;
+    }
+    
+    .task-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.2s ease;
+    }
+    
+    .task-item:last-child {
+      border-bottom: none;
+    }
+    
+    .task-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .task-item.running {
+      background: rgba(76, 175, 80, 0.2);
+      border-left: 3px solid #4CAF50;
+    }
+    
+    .task-item.completed {
+      opacity: 0.7;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .task-name {
+      font-weight: 500;
+      font-size: 14px;
+      flex: 1;
+    }
+    
+    .task-name.completed {
+      text-decoration: line-through;
+    }
+    
+    .task-time {
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    
+    .task-controls {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .daily-summary {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 12px;
+    }
+    
+    .daily-summary h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      color: #fff;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+      font-size: 13px;
+      padding: 4px 0;
+    }
+    
+    .summary-date {
+      color: #e0e0e0;
+    }
+    
+    .summary-time {
+      color: #fff;
+      font-weight: 500;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 30px 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 style="margin: 0; font-size: 18px;">Task Stopwatch</h2>
+    </div>
+    
+    <div class="date-selector">
+      <label for="dateInput">Date</label>
+      <button class="btn btn-small date-nav-btn" id="prevDayBtn" title="Previous Day">◀</button>
+      <input type="date" id="dateInput" />
+      <button class="btn btn-small date-nav-btn" id="nextDayBtn" title="Next Day">▶</button>
+    </div>
+    
+    <div class="task-creator">
+      <input type="text" id="taskNameInput" placeholder="Enter task ..." maxlength="50" />
+      <button class="btn btn-primary" id="addTaskBtn">+ Add</button>
+    </div>
+    
+    <div class="tasks-section">
+      <div class="tasks-header">Today's Tasks</div>
+      <div class="tasks-list" id="tasksList">
+        <div class="loading">Loading tasks...</div>
+      </div>
+    </div>
+    
+    <div class="daily-summary">
+      <h3>Weekly Summary</h3>
+      <div id="dailySummaryList">
+        <div class="loading">Loading summary...</div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
+
