@@ -4,7 +4,7 @@
   "version": "2.0",
   "description": "A task-based stopwatch extension with day-wise time tracking and manual date selection",
   "author": "Sree Ram M S",
-  "homepage_url": "",
+  "homepage_url": "https://github.com/Sree-Ram-MS/StopWatch-Extension",
   "permissions": [
     "storage"
   ],
